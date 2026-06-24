@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Boutique Casco Coclé · PROM-TOUR</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #f0f4f8;
+      color: #222;
+    }
+
+    /* ── Header ── */
+    header {
+      background: #1A5FAB;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    header img {
+      height: 36px;
+      filter: brightness(0) invert(1);
+    }
+
+    /* ── Hero imagen ── */
+    .hero {
+      position: relative;
+      height: 260px;
+      overflow: hidden;
+    }
+    .hero img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, transparent 40%, rgba(0,0,0,.55) 100%);
+    }
+    .hero-badge {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      background: #1A5FAB;
+      color: #fff;
+      font-size: .74rem;
+      font-weight: 700;
+      padding: 4px 11px;
+      border-radius: 20px;
+    }
+    .hero-rating {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      background: rgba(0,0,0,.55);
+      color: #fff;
+      font-size: .82rem;
+      font-weight: 700;
+      padding: 5px 11px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    /* iconos SVG inline */
+    .ico {
+      display: inline-flex;
+      align-items: center;
+      flex-shrink: 0;
+    }
+    .ico svg { display: block; }
+
+    /* ── Contenido principal ── */
+    main {
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 0 0 80px;
+    }
+
+    /* ── Card info ── */
+    .info-card {
+      background: #fff;
+      border-radius: 16px 16px 0 0;
+      margin-top: -20px;
+      position: relative;
+      padding: 22px 20px 18px;
+      box-shadow: 0 -4px 20px rgba(0,0,0,.08);
+    }
+
+    .producto-titulo {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: #1A5FAB;
+      margin-bottom: 6px;
+      line-height: 1.25;
+    }
+    .producto-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+    .meta-chip {
+      background: #e8f0fe;
+      color: #1A5FAB;
+      font-size: .76rem;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .precio-bloque {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      border-top: 1px solid #eef0f5;
+      border-bottom: 1px solid #eef0f5;
+      padding: 12px 0;
+      margin-bottom: 18px;
+    }
+    .precio-num {
+      font-size: 1.7rem;
+      font-weight: 800;
+      color: #1A5FAB;
+      line-height: 1;
+    }
+    .precio-por {
+      font-size: .78rem;
+      color: #888;
+      margin-top: 3px;
+    }
+    .disponible {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      background: #e6f7ee;
+      color: #1a7a40;
+      font-size: .78rem;
+      font-weight: 700;
+      padding: 6px 12px;
+      border-radius: 20px;
+    }
+
+    /* ── Secciones ── */
+    .seccion {
+      padding: 18px 20px;
+      background: #fff;
+      margin-top: 8px;
+    }
+    .seccion-titulo {
+      font-size: .72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .8px;
+      color: #1A5FAB;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .seccion-titulo::after {
+      content: '';
+      flex: 1;
+      height: 1.5px;
+      background: #e8f0fe;
+    }
+
+    /* Descripción */
+    .descripcion p {
+      font-size: .9rem;
+      line-height: 1.65;
+      color: #444;
+    }
+
+    /* Incluye / no incluye */
+    .incluye-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .incluye-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 7px;
+      font-size: .82rem;
+      color: #444;
+      line-height: 1.4;
+    }
+    .incluye-item .ic { flex-shrink: 0; font-size: 1rem; }
+
+    /* Itinerario / timeline */
+    .timeline { position: relative; padding-left: 22px; }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 7px;
+      top: 6px;
+      bottom: 6px;
+      width: 2px;
+      background: #d0dff5;
+    }
+    .timeline-item {
+      position: relative;
+      margin-bottom: 14px;
+    }
+    .timeline-item:last-child { margin-bottom: 0; }
+    .timeline-dot {
+      position: absolute;
+      left: -19px;
+      top: 4px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #1A5FAB;
+      border: 2px solid #fff;
+      box-shadow: 0 0 0 2px #1A5FAB;
+    }
+    .timeline-hora {
+      font-size: .72rem;
+      font-weight: 700;
+      color: #1A5FAB;
+      margin-bottom: 2px;
+    }
+    .timeline-desc {
+      font-size: .84rem;
+      color: #444;
+      line-height: 1.4;
+    }
+
+    /* Galería */
+    .galeria {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+    }
+    .galeria-item {
+      border-radius: 8px;
+      overflow: hidden;
+      aspect-ratio: 1;
+      background: #d0dff5;
+      position: relative;
+    }
+    .galeria-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .galeria-label {
+      position: absolute;
+      inset: 0;
+      background: rgba(26,95,171,.18);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .7rem;
+      font-weight: 700;
+      color: #1A5FAB;
+      text-align: center;
+      padding: 6px;
+    }
+
+    /* Reseñas */
+    .review-promedio {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+    .review-num {
+      font-size: 2.4rem;
+      font-weight: 800;
+      color: #1A5FAB;
+      line-height: 1;
+    }
+    .stars { font-size: 1.1rem; letter-spacing: 2px; }
+    .review-total { font-size: .78rem; color: #888; margin-top: 2px; }
+    .review-card {
+      background: #f7f9fc;
+      border-radius: 10px;
+      padding: 12px 14px;
+      margin-bottom: 10px;
+      border-left: 3px solid #1A5FAB;
+    }
+    .review-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 5px;
+    }
+    .review-autor { font-size: .82rem; font-weight: 700; color: #222; }
+    .review-fecha { font-size: .73rem; color: #aaa; }
+    .review-texto { font-size: .82rem; color: #555; line-height: 1.5; }
+
+    /* Ubicación */
+    .mapa-placeholder {
+      background: linear-gradient(135deg, #d0dff5, #e8f0fe);
+      border-radius: 10px;
+      height: 140px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      color: #1A5FAB;
+      font-size: .85rem;
+      font-weight: 600;
+    }
+    .mapa-placeholder span { font-size: 2rem; }
+    .direccion {
+      font-size: .83rem;
+      color: #555;
+      margin-top: 10px;
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+      line-height: 1.45;
+    }
+
+    /* Políticas */
+    .politica-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 10px;
+      font-size: .83rem;
+      color: #444;
+      line-height: 1.45;
+    }
+    .politica-ic { font-size: 1rem; flex-shrink: 0; margin-top: 1px; }
+    .politica-titulo { font-weight: 700; color: #222; display: block; margin-bottom: 1px; }
+
+    /* ── Barra inferior fija ── */
+    .bottom-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #fff;
+      border-top: 1px solid #e0e6f0;
+      padding: 12px 20px;
+      display: flex;
+      gap: 10px;
+      max-width: 500px;
+      margin: 0 auto;
+      box-shadow: 0 -4px 16px rgba(0,0,0,.10);
+    }
+    .btn-favorito {
+      border: 2px solid #1A5FAB;
+      background: #fff;
+      color: #1A5FAB;
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .btn-favorito:hover { background: #e8f0fe; }
+    .btn-reservar {
+      flex: 1;
+      background: #1A5FAB;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 14px;
+      font-size: .97rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background .2s;
+    }
+    .btn-reservar:hover { background: #154e91; }
+
+    /* ── Nota demo ── */
+    .demo-nota {
+      background: #fff8e1;
+      border-left: 4px solid #f5a623;
+      padding: 10px 14px;
+      margin: 8px 20px 0;
+      border-radius: 0 8px 8px 0;
+      font-size: .75rem;
+      color: #7a5c00;
+      line-height: 1.5;
+    }
+    .demo-nota strong { display: block; margin-bottom: 2px; }
+  </style>
+</head>
+<body>
+
+<!-- Header -->
+<header>
+  <img src="https://now.silice.si/temp/PromTour/Imagenes/Logo%20PromTour.png" alt="PROM-TOUR" />
+</header>
+
+<!-- Hero -->
+<div class="hero">
+  <img src="https://now.silice.si/temp/PromTour/Imagenes/3.png" alt="Boutique Casco Coclé" />
+  <div class="hero-overlay"></div>
+  <span class="hero-badge">Hoteles</span>
+  <span class="hero-rating">&#9733; 4.6</span>
+</div>
+
+<main>
+
+  <!-- Info principal -->
+  <div class="info-card">
+    <div class="producto-titulo">Boutique Casco Coclé</div>
+    <div class="producto-meta">
+      <span class="meta-chip">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#1A5FAB" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        Coclé, Panamá
+      </span>
+      <span class="meta-chip">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#1A5FAB" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        Boutique Hotel
+      </span>
+      <span class="meta-chip">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#1A5FAB" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Hasta 2 personas
+      </span>
+    </div>
+    <div class="precio-bloque">
+      <div>
+        <div class="precio-num">$150.00</div>
+        <div class="precio-por">por noche · pago seguro</div>
+      </div>
+      <div class="disponible">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#1a7a40" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        Disponible
+      </div>
+    </div>
+  </div>
+
+  <!-- Nota demo -->
+  <div class="demo-nota">
+    <strong>Estructura de ficha de producto (demo)</strong>
+    Esta página muestra las secciones que tendría cada ficha en la PWA. Los datos son de ejemplo.
+  </div>
+
+  <!-- Descripción -->
+  <div class="seccion descripcion">
+    <div class="seccion-titulo">Descripción</div>
+    <p>
+      El Boutique Casco Coclé es un hotel de arquitectura colonial restaurada ubicado en el corazón histórico de la provincia. Cada habitación conserva los acabados originales del siglo XIX combinados con comodidades modernas. Su terraza ofrece una vista panorámica al mar Pacífico, ideal para atardeceres únicos en Panamá.
+    </p>
+  </div>
+
+  <!-- Qué incluye -->
+  <div class="seccion">
+    <div class="seccion-titulo">¿Qué incluye?</div>
+    <div class="incluye-grid">
+      <div class="incluye-item">
+        <svg class="ic" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1a7a40" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        Desayuno continental
+      </div>
+      <div class="incluye-item">
+        <svg class="ic" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1a7a40" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        Wi-Fi de alta velocidad
+      </div>
+      <div class="incluye-item">
+        <svg class="ic" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1a7a40" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        Acceso a terraza panorámica
+      </div>
+      <div class="incluye-item">
+        <svg class="ic" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1a7a40" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        Estacionamiento gratuito
+      </div>
+      <div class="incluye-item">
+        <svg class="ic" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1a7a40" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        Check-in flexible
+      </div>
+      <div class="incluye-item">
+        <svg class="ic" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1a7a40" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        Conserjería en español
+      </div>
+      <div class="incluye-item">
+        <svg class="ic" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C8102E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        Traslado al aeropuerto
+      </div>
+      <div class="incluye-item">
+        <svg class="ic" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C8102E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        Almuerzo o cena
+      </div>
+    </div>
+  </div>
+
+  <!-- Itinerario sugerido -->
+  <div class="seccion">
+    <div class="seccion-titulo">Itinerario sugerido</div>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-hora">Día 1 · Check-in</div>
+        <div class="timeline-desc">Llegada y bienvenida con bebida típica. Recorrido por las instalaciones históricas del hotel.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-hora">Día 1 · Tarde</div>
+        <div class="timeline-desc">Visita guiada por el casco histórico de Coclé. Artesanías y mercado local a pasos del hotel.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-hora">Día 2 · Mañana</div>
+        <div class="timeline-desc">Desayuno en terraza con vista al Pacífico. Opcional: tour de media jornada por playas cercanas.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-hora">Día 2 · Check-out</div>
+        <div class="timeline-desc">Salida flexible hasta las 12:00 m. Servicio de maletas disponible sin costo adicional.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Galería -->
+  <div class="seccion">
+    <div class="seccion-titulo">Galería</div>
+    <div class="galeria">
+      <div class="galeria-item">
+        <img src="https://now.silice.si/temp/PromTour/Imagenes/3.png" alt="Fachada" />
+      </div>
+      <div class="galeria-item">
+        <div class="galeria-label">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1A5FAB" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9V19h20V9"/><path d="M1 9h22"/><rect x="5" y="13" width="5" height="6"/><rect x="14" y="13" width="5" height="6"/><path d="M5 9V5h14v4"/></svg>
+          <span style="display:block;margin-top:4px;font-size:.68rem">Habitación</span>
+        </div>
+      </div>
+      <div class="galeria-item">
+        <div class="galeria-label">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1A5FAB" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></svg>
+          <span style="display:block;margin-top:4px;font-size:.68rem">Terraza</span>
+        </div>
+      </div>
+      <div class="galeria-item">
+        <div class="galeria-label">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1A5FAB" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+          <span style="display:block;margin-top:4px;font-size:.68rem">Desayuno</span>
+        </div>
+      </div>
+      <div class="galeria-item">
+        <div class="galeria-label">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1A5FAB" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          <span style="display:block;margin-top:4px;font-size:.68rem">Colonial</span>
+        </div>
+      </div>
+      <div class="galeria-item">
+        <div class="galeria-label">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1A5FAB" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18s1-2 4-2 5 4 8 4 4-2 4-2"/><path d="M3 13s1-2 4-2 5 4 8 4 4-2 4-2"/></svg>
+          <span style="display:block;margin-top:4px;font-size:.68rem">Vista al mar</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Reseñas -->
+  <div class="seccion">
+    <div class="seccion-titulo">Reseñas</div>
+    <div class="review-promedio">
+      <div class="review-num">4.6</div>
+      <div>
+        <div class="stars" style="color:#1A5FAB;letter-spacing:2px">★★★★★</div>
+        <div class="review-total">128 reseñas verificadas</div>
+      </div>
+    </div>
+    <div class="review-card">
+      <div class="review-header">
+        <span class="review-autor">María R. · MX</span>
+        <span class="review-fecha">Mayo 2026</span>
+      </div>
+      <div class="review-texto">El lugar es precioso, la arquitectura colonial te transporta. El desayuno en terraza con vista al Pacífico fue lo mejor del viaje.</div>
+    </div>
+    <div class="review-card">
+      <div class="review-header">
+        <span class="review-autor">Carlos T. · CO</span>
+        <span class="review-fecha">Abril 2026</span>
+      </div>
+      <div class="review-texto">Excelente atención del personal. Las habitaciones son amplias y el Wi-Fi funciona perfecto. Recomendado 100%.</div>
+    </div>
+  </div>
+
+  <!-- Ubicación -->
+  <div class="seccion">
+    <div class="seccion-titulo">Ubicación</div>
+    <div class="mapa-placeholder">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#1A5FAB" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      Mapa interactivo (integración Google Maps)
+    </div>
+    <div class="direccion">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1A5FAB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:2px"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      Calle Principal, Casco Histórico de Coclé, Provincia de Coclé, Panamá.
+    </div>
+  </div>
+
+  <!-- Políticas -->
+  <div class="seccion" style="margin-bottom: 0;">
+    <div class="seccion-titulo">Políticas</div>
+    <div class="politica-item">
+      <span class="politica-ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1A5FAB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
+      <div>
+        <span class="politica-titulo">Check-in / Check-out</span>
+        Check-in desde las 3:00 pm · Check-out hasta las 12:00 m
+      </div>
+    </div>
+    <div class="politica-item">
+      <span class="politica-ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1A5FAB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg></span>
+      <div>
+        <span class="politica-titulo">Cancelación</span>
+        Cancelación gratuita hasta 48 horas antes de la llegada
+      </div>
+    </div>
+    <div class="politica-item">
+      <span class="politica-ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1A5FAB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span>
+      <div>
+        <span class="politica-titulo">Mascotas</span>
+        No se admiten mascotas en las instalaciones
+      </div>
+    </div>
+    <div class="politica-item">
+      <span class="politica-ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1A5FAB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></span>
+      <div>
+        <span class="politica-titulo">Niños</span>
+        Menores de 5 años sin costo adicional con cama existente
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- Barra inferior fija -->
+<div class="bottom-bar">
+  <button class="btn-favorito" title="Agregar a favoritos">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1A5FAB" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+  </button>
+  <button class="btn-reservar" onclick="window.location.href='reserva.html'">
+    Reservar por $150.00 / noche
+  </button>
+</div>
+
+</body>
+</html>
